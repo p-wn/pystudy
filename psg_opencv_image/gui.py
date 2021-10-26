@@ -1,11 +1,11 @@
 import PySimpleGUI as sg
 import cv2
-import numpy as np
-from PIL import Image
+
 
 file_type = [("All files (*.*)", "*.*"),
             ("JPEG (*.jpg)", "*.jpg"),
             ("PNG (*.png)", "*.png"),
+            ("BMP (*.bmp)", "*.bmp"),
     ]
 or_img = [[sg.Image(filename='', key='-or_img-')]]
 re_img = [[sg.Image(filename='', key='-re_img-')]]
@@ -45,18 +45,22 @@ while True:
         break
 
     if event == "Load":
-        filename = values["-FILE-"]
-        img = cv2.imread(str(filename), cv2.IMREAD_COLOR)
-        m_img = img.copy()
+        try: 
+            filename = values["-FILE-"]
+            img = cv2.imread(str(filename), cv2.IMREAD_COLOR)
+            m_img = img.copy()
            
-        window['-THRESH SLIDER-'].update(128)
-        window['-CANNY SLIDER A-'].update(128)
-        window['-CANNY SLIDER B-'].update(128)
-        window['-BLUR SLIDER-'].update(1)
-        window['-HUE SLIDER-'].update(0) 
-        window['-ENHANCE SLIDER-'].update(128) 
+            window['-THRESH SLIDER-'].update(128)
+            window['-CANNY SLIDER A-'].update(128)
+            window['-CANNY SLIDER B-'].update(128)
+            window['-BLUR SLIDER-'].update(1)
+            window['-HUE SLIDER-'].update(0) 
+            window['-ENHANCE SLIDER-'].update(128) 
          
-        image_load = True
+            image_load = True
+        except AttributeError:
+            sg.popup('Only jpg, png, bmp')
+            pass
 
     if image_load:
       
